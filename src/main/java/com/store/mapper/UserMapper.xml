@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.store.model.User">
+    <id column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="userName" jdbcType="VARCHAR" property="username" />
+    <result column="passWord" jdbcType="VARCHAR" property="password" />
+    <result column="eMail" jdbcType="VARCHAR" property="email" />
+    <result column="identity" jdbcType="INTEGER" property="identity" />
+  </resultMap>
+  <sql id="allColumes">
+    phone, userName, passWord, eMail, identity
+  </sql>
+
+  <select id="getUserByPhoneAndPassword" resultType="com.store.model.User">
+    select
+        <include refid="allColumes"/>
+    from
+        u_user
+    where
+        phone=#{phone}
+    and
+        password=#{password};
+  </select>
+
+    <insert id="insertUserByPhoneAndPassword">
+        insert into
+            u_user(phone,userName,passWord,eMail,identity)
+        values
+            (#{user.phone},#{user.userName},#{user.passWord},#{user.eMail},#{user.identity})
+    </insert>
+
+    <select id="selectUserByPhone" resultType="com.store.model.User">
+        select <include refid="allColumes"/>
+        from u_user where phone = #{phone}
+    </select>
+
+    <update id="updatePassWordByPhone">
+        update u_user set password=#{password} where phone=#{phone}
+    </update>
+</mapper>
